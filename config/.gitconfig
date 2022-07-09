@@ -1,0 +1,7 @@
+[user]
+	name = Andrii Kudriashov
+	email = andrii@kudriashov.net
+[core]
+	editor = vim
+[init]
+	defaultBranch = develop
