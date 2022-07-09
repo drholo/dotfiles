@@ -1,0 +1,30 @@
+new
+splitw -v -p 30
+selectp -t 0
+splitw -h
+splitw -v
+selectp -t 0
+splitw -v
+selectp -t 4
+splitw -v
+
+
+send-keys -t "0" 'ssh ubuntu@10.185.121.87' Enter
+send-keys -t "1" 'ssh ubuntu@10.185.121.87' Enter
+send-keys -t "2" 'ssh ubuntu@10.185.121.87' Enter
+
+send-keys -t "0" 'tail -f /opt/ens/app/activemq-broker.current.log' Enter
+send-keys -t "1" 'tail -f /opt/ens/app/gcc-backend.current.log' Enter
+send-keys -t "2" 'while true; do ps aux |grep java; sleep 1; done' Enter
+selectp -t 2
+splitw -v
+send-keys -t "3" 'while true; do ps aux |grep rsync; sleep 1; done' Enter
+
+send-keys -t "4" 'lxc shell sdr-clangdevimg-NEWEST' Enter
+
+send-keys -t "5" 'tail -f /tmp/testfw/logs/host.log'
+send-keys -t "6" 'cd ~/repo/sasnet' Enter
+send-keys -t "6" 'source .venv/bin/activate' Enter
+send-keys -t "6" 'setfwvar' Enter
+send-keys -t "6" 'testfw -x test/integration/oam'
+
