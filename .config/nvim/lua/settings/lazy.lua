@@ -13,3 +13,17 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins")
 
+-- pynvim
+
+if vim.fn.empty(vim.fn.glob(vim.fn.stdpath('data') .. '/venv')) == 1 then
+    vim.fn.system({
+        'python3', '-m', 'venv',
+        vim.fn.stdpath('data') .. '/venv'
+    })
+    vim.fn.system({
+        vim.fn.stdpath('data') .. '/venv/bin/python3',
+        '-m', 'pip', 'install', 'pynvim'
+    })
+end
+vim.g.python3_host_prog = vim.fn.stdpath('data') .. '/venv/bin/python3'
+
