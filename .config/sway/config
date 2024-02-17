@@ -36,6 +36,7 @@ set $browser firefox
 set $menu "rofi -combi-modi window,drun,ssh,run -show combi -show-icons"
 
 ### Screen/Desktop
+bindsym $mod+Backslash output eDP-1 disable toggle
 
 # Wallpaper 
 output * bg ~/wallpapper fill
@@ -54,8 +55,8 @@ output * bg ~/wallpapper fill
 bindsym $mod+Shift+Return exec 'swaylock -f' 
 
 exec swayidle -w \
-         timeout 300 'swaylock -f -c 000000' \
-         timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+         timeout 1200 'swaylock -f -c 000000' \
+         timeout 1500 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
          before-sleep 'swaylock -f -c 000000'
 
 
@@ -110,8 +111,7 @@ floating_modifier $mod normal
 bindsym $mod+Shift+c reload
 
 # Exit sway (logs you out of your Wayland session)
-bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
-#
+bindsym $mod+Shift+e exec wlogout 
 # Moving around:
 #
     # Move your focus around
@@ -249,7 +249,7 @@ bindsym XF86KbdBrightnessDown exec light -s sysfs/leds/dell::kbd_backlight -U 20
 
 
 # SCREENSHOT
-bindsym $mod+Shift+P exec grim -t jpeg -g "$(slurp)" ~/screenshots/$(date +%Y-%m-%d_%H-%m-%s).jpg
+bindsym $mod+Shift+P exec grim -t png -g "$(slurp)" ~/screenshots/$(date +%Y-%m-%d_%H-%m-%s).png
 
 # Applications
 
