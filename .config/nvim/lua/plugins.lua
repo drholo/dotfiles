@@ -4,14 +4,14 @@ return {
 	{ "junegunn/gv.vim", cmd = "Gv", dependencies = {"tpope/vim-fugitive"}, lazy = true },
 	{
 		"nvim-tree/nvim-tree.lua",
- 		version = "*",
- 		lazy = false,
- 		dependencies = {
- 		  "nvim-tree/nvim-web-devicons",
- 		},
- 		config = function()
- 		  require("nvim-tree").setup {}
- 		end,
+		version = "*",
+		lazy = false,
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
+		config = function()
+			require("nvim-tree").setup {}
+		end,
 		keys = {
 			{ "<leader>ft", "<cmd>NvimTreeToggle<CR>", desc = "[f]ile browser [t]oggle" },
 		},
@@ -29,23 +29,23 @@ return {
 	    "akinsho/toggleterm.nvim", -- terminal in vim you can send code to
 	    config = function()
 		  -- tweak the sizes of the new terminal
-	      require("toggleterm").setup({
-	        size = function(term)
-	          if term.direction == "horizontal" then
-	            return 15
-	          elseif term.direction == "vertical" then
-	            return vim.o.columns * 0.4
-	          end
-	        end,
-	      })
+			require("toggleterm").setup({
+				size = function(term)
+					if term.direction == "horizontal" then
+						return 15
+					elseif term.direction == "vertical" then
+						return vim.o.columns * 0.4
+					end
+				end,
+			})
 	      -- Always use insert mode when entering a terminal buffer, even with mouse click.
 	      -- NOTE: Clicking with a mouse a second time enters visual select mode, just like in a text buffer.
-	      vim.api.nvim_create_autocmd("BufEnter", {
-	        pattern = "*",
-	        callback = function()
-	          vim.cmd("if &buftype == 'terminal' | startinsert | endif")
-	        end,
-	      })
+			vim.api.nvim_create_autocmd("BufEnter", {
+				pattern = "*",
+				callback = function()
+					vim.cmd("if &buftype == 'terminal' | startinsert | endif")
+				end,
+			})
 	    end,
 	    keys = {
 			{ "gxx", ":ToggleTermSendCurrentLine<CR><CR>", desc = "Send current line to terminal" },
@@ -62,13 +62,13 @@ return {
 	    build = ":TSUpdate",
 	    event = { "BufReadPost", "BufNewFile" },
 	    config = function()
-	      require("nvim-treesitter.configs").setup({
-	        highlight = {
-	          enable = true,
-	        },
-	        indent = {
-	          enable = true,
-	          disable = { "python", "snakemake" }, -- let vim-python-pep8-indent handle this
+			require("nvim-treesitter.configs").setup({
+				highlight = {
+				enable = true,
+				},
+				indent = {
+				enable = true,
+				disable = { "python", "snakemake" }, -- let vim-python-pep8-indent handle this
 	        },
 	        -- These will be attempted to be installed automatically, but you'll need a C compiler installed.
 	        ensure_installed = {
@@ -89,21 +89,20 @@ return {
 				"ruby",
 				"rust",
 				"snakemake",
-	        },
-	        incremental_selection = {
-	          enable = true,
-	          keymaps = {
-	            init_selection = "<leader>cs",
-	            node_incremental = "<Tab>",
-	            scope_incremental = false,
-	            node_decremental = "<S-Tab>",
-	          },
-	        },
+			},
+			incremental_selection = {
+			enable = true,
+			keymaps = {
+				init_selection = "<leader>cs",
+				node_incremental = "<Tab>",
+				scope_incremental = false,
+				node_decremental = "<S-Tab>",
+				},
+			},
 	      })
 	      vim.cmd("set foldmethod=expr")
 	      vim.cmd("set foldexpr=nvim_treesitter#foldexpr()")
 	      vim.cmd("set nofoldenable")
-	      -- RMarkdown doesn't have a good treesitter parser, but Markdown does
 	      vim.treesitter.language.register("markdown", "rmd")
 	      vim.treesitter.language.register("markdown", "rmarkdown")
 		end,
@@ -183,7 +182,6 @@ return {
 					file_previewer = require("telescope.previewers").vim_buffer_cat.new,
 					grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
 					qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-					-- Developer configurations: Not meant for general override
 					buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
 				},
 				pickers = { find_files = { find_command = { "fd", "--type", "f", "--hidden", "--strip-cwd-prefix" } } },
@@ -197,6 +195,10 @@ return {
 			"BurntSushi/ripgrep",
 			"sharkdp/fd",
 		},
+	    ensure_installed = {
+			"fd",
+			"ripgrep",
+		},
 	},
 	{
 		"startup-nvim/startup.nvim",
@@ -209,4 +211,78 @@ return {
 		"nvim-telescope/telescope-file-browser.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
 	},
+	{
+		"williamboman/mason.nvim",
+		config = function()
+			require("mason").setup()
+		end,
+	},
+	{
+		"neovim/nvim-lspconfig",
+		dependencies = {
+			"williamboman/mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			"hrsh7th/nvim-cmp",
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-path",
+			"L3MON4D3/LuaSnip",
+			"saadparwaiz1/cmp_luasnip",
+		},
+		config = function()
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			local cmp_status, cmp = pcall(require, "cmp")
+			if not cmp_status then
+				return
+			end
+			cmp.setup({
+				snippet = {
+					expand = function(args)
+						require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+						-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
+					end,
+				},
+				sources = cmp.config.sources({
+					{ name = 'nvim_lsp' },
+					{ name = 'luasnip' }, -- For luasnip users.
+					-- { name = 'snippy' }, -- For snippy users.
+				},
+				{
+					{ name = 'buffer' },
+				}),
+				mapping = cmp.mapping.preset.insert({
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+					if cmp.visible() then
+							cmp.select_next_item()
+						elseif luasnip.expand_or_jumpable() then
+							luasnip.expand_or_jump()
+						elseif has_words_before() then
+							cmp.complete()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+					['<C-b>'] = cmp.mapping.scroll_docs(-4),
+					['<C-f>'] = cmp.mapping.scroll_docs(4),
+					['<C-Space>'] = cmp.mapping.complete(),
+					['<C-e>'] = cmp.mapping.abort(),
+					['<CR>'] = cmp.mapping.confirm({ select = true }), 
+				}),
+			})
+			capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+			require('mason').setup()
+			local mason_lspconfig = require 'mason-lspconfig'
+			mason_lspconfig.setup {
+				ensure_installed = { "pyright" }
+			}
+			require("lspconfig")["pyright"].setup {
+				capabilities = capabilities,
+			}
+		end,
+	},
+	{
+		"lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {},
+		config = function()
+			require("ibl").setup()
+		end,
+	}
 }
