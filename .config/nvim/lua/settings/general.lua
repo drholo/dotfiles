@@ -8,6 +8,8 @@ vim.g.loaded_netrwPlugin = 1
 
 set.clipboard = unnamedplus
 set.paste = true
+set.splitright = true
+set.splitbelow = true
 set.tabstop = 4
 set.softtabstop = 4
 set.shiftwidth = 4
