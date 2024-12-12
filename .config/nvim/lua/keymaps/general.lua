@@ -1,3 +1,10 @@
+-- copy paste settings
+
+vim.keymap.set("", "<leader>y", '"+y')
+vim.keymap.set("", "<leader>Y", '"+y$')
+vim.keymap.set("n", "<leader>p", '"+p')
+vim.keymap.set("n", "<leader>P", '"+P')
+
 -- markdown settings
 
 vim.keymap.set("n", "<leader>ms", "<Plug>MarkdownPreview")
