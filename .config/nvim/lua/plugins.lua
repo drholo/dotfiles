@@ -1,7 +1,18 @@
 return {
 	{ "nvim-lua/plenary.nvim" },
 	{ "tpope/vim-fugitive", cmd = "Git", lazy = true },
-	{ "junegunn/gv.vim", cmd = "Gv", dependencies = {"tpope/vim-fugitive"}, lazy = true },
+	{ "tpope/vim-rhubarb", dependencies = {"tpope/vim-fugitive", {"prichrd/netrw.nvim"}}},
+	{ "junegunn/gv.vim", dependencies = {"tpope/vim-fugitive"}},
+	{
+		"github/copilot.vim",
+		version = "v1.33.0",
+	},
+	{
+		"prichrd/netrw.nvim", cmd="Netrw",
+		config = function()
+			require("netrw").setup()
+		end,
+	},
 	{
 		"nvim-tree/nvim-tree.lua",
 		version = "*",
@@ -272,10 +283,30 @@ return {
 			require('mason').setup()
 			local mason_lspconfig = require 'mason-lspconfig'
 			mason_lspconfig.setup {
-				ensure_installed = { "pyright" }
+				ensure_installed = { "ruff", "pylsp" }
 			}
-			require("lspconfig")["pyright"].setup {
+			require('lspconfig')['ruff'].setup {
+				on_attach = on_attach,
+				root_dir = function()
+					return vim.fn.getcwd()
+				end,
 				capabilities = capabilities,
+			}
+			require('lspconfig')['pylsp'].setup {
+			    settings = {
+			        pylsp = {
+			            plugins = {
+			                pycodestyle = {
+			                    ignore = {
+			                        'E203',
+			                        'E251',
+			                    },
+			                    maxLineLength = 120
+			                }
+			            }
+			        }
+			    },
+			    capabilities = capabilities,
 			}
 		end,
 	},
@@ -284,5 +315,5 @@ return {
 		config = function()
 			require("ibl").setup()
 		end,
-	}
+	},
 }
