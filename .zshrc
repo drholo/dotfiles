@@ -93,6 +93,7 @@ plugins=(git thefuck python pyenv)
 # Aliases
 alias vim="nvim"
 alias ll="ls -al"
+alias colcon_cleanall="rm -rf build install log"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -103,3 +104,11 @@ test -r ~/.dir_colors && eval $(dircolors ~/.dir_colors)
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 source ~/.zsh.usersettings
+
+# Created by `pipx` on 2025-11-04 11:58:41
+export PATH="$PATH:/home/andrii/.local/bin"
+
+export QSYS_ROOTDIR="/home/andrii/app/altera_lite/25.1std/quartus/sopc_builder/bin"
+
+# Added by Quartus Prime software
+# export SALT_LICENSE_FILE="$SALT_LICENSE_FILE:/home/andrii/.altera.quartus/questa_lic.dat"

@@ -33,7 +33,7 @@ set $up k
 set $right l
 set $term alacritty
 set $browser firefox
-set $menu "rofi -combi-modi window,drun,ssh,run -show combi -show-icons"
+set $menu "rofi -combi-modi window,drun,ssh,run,combi -show combi -show-icons"
 
 ### Screen/Desktop
 bindsym $mod+Backslash output eDP-1 disable toggle
@@ -52,10 +52,10 @@ output * bg ~/wallpapper fill
 # bindsym $mod+L exec $lockman
 #
 
-bindsym $mod+Shift+Return exec 'swaylock -f' 
+bindsym $mod+Shift+Return exec 'swaylock -f -C ~/.config/swaylock/config' 
 
 exec swayidle -w \
-         timeout 1200 'swaylock -f -c 000000' \
+         timeout 1200 'swaylock -f -c ffffff' \
          timeout 1500 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
          before-sleep 'swaylock -f -c 000000'
 
